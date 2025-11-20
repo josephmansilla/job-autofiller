@@ -5,10 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('firstName').value = result.profile.firstName || '';
             document.getElementById('lastName').value = result.profile.lastName || '';
             document.getElementById('email').value = result.profile.email || '';
+            document.getElementById('identification').value = result.profile.identification || '';
             document.getElementById('phone').value = result.profile.phone || '';
             document.getElementById('address').value = result.profile.address || '';
+            document.getElementById('city').value = result.profile.city || '';
+            document.getElementById('state').value = result.profile.state || '';
+            document.getElementById('postalCode').value = result.profile.postalCode || '';
             document.getElementById('linkedin').value = result.profile.linkedin || '';
+            document.getElementById('github').value = result.profile.github || '';
             document.getElementById('portfolio').value = result.profile.portfolio || '';
+            document.getElementById('gender').value = result.profile.gender || '';
+            document.getElementById('dayOfBirth').value = result.profile.dayOfBirth || '';
+            document.getElementById('monthOfBirth').value = result.profile.monthOfBirth || '';
+            document.getElementById('yearOfBirth').value = result.profile.yearOfBirth || '';
             document.getElementById('gender').value = result.profile.gender || '';
         }
         if (result.resumeMeta) {
@@ -16,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Save data
     document.getElementById('saveBtn').addEventListener('click', async () => {
         const status = document.getElementById('status');
         status.innerText = "Saving...";
@@ -26,10 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
             lastName: document.getElementById('lastName').value,
             fullName: `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`,
             email: document.getElementById('email').value,
+            identification: document.getElementById('identification').value,
             phone: document.getElementById('phone').value,
             address: document.getElementById('address').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            postalCode: document.getElementById('postalCode').value,
             linkedin: document.getElementById('linkedin').value,
+            github: document.getElementById('github').value,
             portfolio: document.getElementById('portfolio').value,
+            dayOfBirth: document.getElementById('dayOfBirth').value,
+            monthOfBirth: document.getElementById('monthOfBirth').value,
+            yearOfBirth: document.getElementById('yearOfBirth').value,
             gender: document.getElementById('gender').value,
         };
 
@@ -58,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
         }
-
+        // your data stays local but is NOT encrpyted.
         chrome.storage.local.set(dataToSave, () => {
             status.innerText = "Profile Saved! You can close this.";
             if (dataToSave.resumeMeta) {

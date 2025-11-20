@@ -7,11 +7,11 @@ const KEYWORDS = {
     linkedin: ['linkedin', 'linked in'],
     portfolio: ['portfolio', 'website', 'personal site', 'github', 'git'],
     address: ['address', 'direccion'],
-    identification: ['identification', 'identificacion', 'identificacion'],
+    identification: ['identification', 'identificacion', 'identificacion', 'documento', 'Nº de documento', 'DNI', ],
     city: ['city', 'ciudad'],
     state: ['state', 'province', 'provincia'],
     resume: ['resume', 'cv', 'curriculum', 'upload', 'curriculum vitae'],
-    gender: ['gender', 'sex', 'género', 'genero']
+    gender: ['gender', 'sex', 'género', 'genero'],
 };
 
 // Listen for the hotkey (Alt + A)
