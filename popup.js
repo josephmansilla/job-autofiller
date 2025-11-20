@@ -5,12 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('firstName').value = result.profile.firstName || '';
             document.getElementById('lastName').value = result.profile.lastName || '';
             document.getElementById('email').value = result.profile.email || '';
-            document.getElementById('identification').value = result.profile.identification || '';
             document.getElementById('phone').value = result.profile.phone || '';
+            document.getElementById('identification').value = result.profile.identification || '';
+            document.getElementById('nationality').value = result.profile.nationality || '';
+            document.getElementById('gender').value = result.profile.gender || '';
             document.getElementById('address').value = result.profile.address || '';
             document.getElementById('city').value = result.profile.city || '';
-            document.getElementById('state').value = result.profile.state || '';
             document.getElementById('postalCode').value = result.profile.postalCode || '';
+            document.getElementById('state').value = result.profile.state || '';
+            document.getElementById('country').value = result.profile.country || '';
             document.getElementById('linkedin').value = result.profile.linkedin || '';
             document.getElementById('github').value = result.profile.github || '';
             document.getElementById('portfolio').value = result.profile.portfolio || '';
@@ -18,12 +21,42 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('dayOfBirth').value = result.profile.dayOfBirth || '';
             document.getElementById('monthOfBirth').value = result.profile.monthOfBirth || '';
             document.getElementById('yearOfBirth').value = result.profile.yearOfBirth || '';
-            document.getElementById('gender').value = result.profile.gender || '';
         }
         if (result.resumeMeta) {
             document.getElementById('fileStatus').innerText = `Saved: ${result.resumeMeta.name}`;
         }
     });
+
+    const importBtn = document.getElementById('importJsonBtn');
+    const jsonInput = document.getElementById('jsonInput');
+
+    importBtn.addEventListener('click', () => {
+        jsonInput.click(); // Trigger invisible file input
+    });
+    jsonInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const importedData = JSON.parse(e.target.result);
+                fields.forEach(key => {
+                    if (importedData[key] !== undefined) {
+                        const element = document.getElementById(key);
+                        if (element) element.value = importedData[key];
+                    }
+                });
+                const status = document.getElementById('status');
+                status.innerText = "Data imported from JSON. Click Save to keep it.";
+                status.style.color = "blue";
+            } catch (error) {
+                alert("Invalid JSON file.");
+            }
+        };
+        reader.readAsText(file);
+    });
+
 
     document.getElementById('saveBtn').addEventListener('click', async () => {
         const status = document.getElementById('status');
@@ -50,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const fileInput = document.getElementById('resumeFile');
-
         const dataToSave = { profile };
 
         // Handle File Upload (Convert to Base64 to store in Chrome Storage)

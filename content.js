@@ -1,17 +1,23 @@
 const KEYWORDS = {
     firstName: ['first name', 'firstname', 'given name', 'fname', 'primer nombre', 'nombre'],
     lastName: ['last name', 'lastname', 'surname', 'lname', 'family name', 'apellido'],
-    fullName: ['full name', 'fullname', 'your name', 'name'],
-    email: ['email', 'e-mail', 'mail', 'Email'],
-    phone: ['phone', 'mobile', 'cell', 'telephone', 'contact number', 'teléfono', 'telefono'],
+    fullName: ['full name', 'fullname', 'your name', 'name', 'nombre completo'],
+    email: ['email', 'e-mail', 'mail', 'Email', 'correo', 'correo electronico', 'correo electrónico'],
+    phone: ['phone', 'mobile', 'cell', 'telephone', 'contact number', 'teléfono', 'telefono', 'celular', 'contacto'],
+    nationality: ['nationality', 'nacionalidad'],
     linkedin: ['linkedin', 'linked in'],
-    portfolio: ['portfolio', 'website', 'personal site', 'github', 'git'],
-    address: ['address', 'direccion'],
+    github: ['github', 'git'],
+    portfolio: ['portfolio', 'website', 'personal site', 'web'],
+    address: ['address', 'direccion', 'domicilio', 'residence', 'residencia'],
+    city: ['city', 'ciudad', 'town', 'municipio'],
+    state: ['state', 'province', 'region', 'territory', 'provincia', 'estado'],
+    country: ['country', 'país', 'pais'],
     identification: ['identification', 'identificacion', 'identificacion', 'documento', 'Nº de documento', 'DNI', ],
-    city: ['city', 'ciudad'],
-    state: ['state', 'province', 'provincia'],
     resume: ['resume', 'cv', 'curriculum', 'upload', 'curriculum vitae'],
-    gender: ['gender', 'sex', 'género', 'genero'],
+    gender: ['gender', 'sex', 'género', 'genero', 'sexo'],
+    dayOfBirth: ['day', 'dia', 'dd'],
+    monthOfBirth: ['month', 'mes', 'mm'],
+    yearOfBirth: ['year', 'año', 'yyyy']
 };
 
 // Listen for the hotkey (Alt + A)
@@ -28,27 +34,34 @@ function runAutofill() {
             alert("Please click the extension icon and save your profile first!");
             return;
         }
-
         showToast("Autofilling...");
         let fillCount = 0;
-
         const inputs = document.querySelectorAll('input, select, textarea');
 
         inputs.forEach(input => {
             if (input.type === 'hidden' || input.disabled || input.readOnly) return;
 
             const fieldType = identifyField(input);
-
-            if (fieldType && data.profile[fieldType]) {
-                if (setValue(input, data.profile[fieldType])) {
-                    fillCount++;
-                    highlight(input);
-                }
-            } else if (fieldType === 'resume' && data.resume && input.type === 'file') {
+            if (fieldType === 'resume' && data.resume && input.type === 'file') {
                 uploadFile(input, data.resume, data.resumeMeta);
                 fillCount++;
                 highlight(input);
-            } else if (input.name && input.name.toLowerCase().includes('gender')) {
+                return;
+            }
+            if (fieldType && data.profile[fieldType]) {
+                if (['dayOfBirth', 'monthOfBirth', 'yearOfBirth'].includes(fieldType)) {
+                    if(setValue(input, data.profile[fieldType])) {
+                        fillCount++;
+                        highlight(input);
+                    }
+                } else {
+                    if (setValue(input, data.profile[fieldType])) {
+                        fillCount++;
+                        highlight(input);
+                    }
+                }
+            }
+            else if (input.name && input.name.toLowerCase().includes('gender')) {
                 if(setSelect(input, data.profile.gender)) fillCount++;
             }
         });
@@ -83,6 +96,7 @@ function identifyField(element) {
     for (const [key, words] of Object.entries(KEYWORDS)) {
         if (words.some(word => attributes.includes(word))) {
             if (key === 'email' && attributes.includes('female')) continue;
+            if (key === 'address' && attributes.includes('email')) continue;
             return key;
         }
     }

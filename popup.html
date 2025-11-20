@@ -24,10 +24,11 @@
 <body>
 <h2>Job Auto-Filler</h2>
 <h2>Try out magic: 'alt + a'</h2>
-
+<button id="importJsonBtn" class="btn btn-info">📂 Importar Datos desde JSON</button>
+<input type="file" id="jsonInput" accept=".json" style="display: none;">
 <div class="row">
     <div class="col form-group">
-        <label>First and Second Name</label>
+        <label>First Name</label>
         <input type="text" id="firstName" />
     </div>
     <div class="col form-group">
@@ -35,21 +36,51 @@
         <input type="text" id="lastName">
     </div>
 </div>
-
-<div class="form-group">
-    <label>Email Address</label>
-    <input type="email" id="email">
+<div class="row">
+    <div class="col form-group">
+        <label>Email Address</label>
+        <input type="email" id="email">
+    </div>
+    <div class="col form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="phone">
+    </div>
 </div>
 
-<div class="form-group">
-    <label>Identification</label>
-    <input type="identification" id="identification">
+<div class="row">
+    <div class="col form-group">
+        <label>ID / DNI</label>
+        <input type="identification" id="identification">
+    </div>
+    <div class="col form-group">
+        <label>Nationality</label>
+        <input type="nationality" id="nationality">
+    </div>
 </div>
 
 
 <div class="form-group">
-    <label>Phone Number</label>
-    <input type="tel" id="phone">
+    <label>Difficulty</label>
+    <select id="gender">
+        <option value="">Choose dificulty...</option>
+        <option value="Male">Male (easy)</option>
+        <option value="Female">Female (medium)</option>
+        <option value="Non-binary">Non-binary  (hard)</option>
+        <option value="Prefer not to say">Prefer not to say (extreme)</option>
+    </select>
+</div>
+
+<label class="row">Date of birth</label>
+<div class="row form-group">
+    <div class="col form-group">
+        <input type="text" id="dayOfBirth" placeholder="Day" min="1" max="31">
+    </div>
+    <div class="col form-group">
+        <input type="text" id="monthOfBirth" placeholder="Month" min="1" max="12">
+    </div>
+    <div class="col form-group">
+        <input type="text" id="yearOfBirth" placeholder="Year" min="1990" max="2010">
+    </div>
 </div>
 
 <div class="form-group">
@@ -63,12 +94,20 @@
         <input type="text" id="city" placeholder="Bella Vista City">
     </div>
     <div class="col form-group">
+        <label>Postal code</label>
+        <input type="text" id="postalCode">
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col form-group">
         <label>State/Province</label>
         <input type="text" id="state" placeholder="Good Airs">
     </div>
     <div class="col form-group">
-        <label>Postal code</label>
-        <input type="text" id="postalCode">
+        <label>Country</label>
+        <input type="text" id="state">
     </div>
 </div>
 
@@ -77,12 +116,15 @@
         <label>LinkedIn URL</label>
         <input type="text" id="linkedin">
     </div>
+</div>
+
+
+<div class="row">
     <div class="col form-group">
         <label>Github URL</label>
         <input type="text" id="github">
     </div>
 </div>
-
 <div class="row">
 
     <div class="col form-group">
@@ -91,28 +133,6 @@
     </div>
 </div>
 
-<div class="col form-group">
-    <label class="row">Date of birth</label>
-    <div class="col form-group">
-        <input type="text" id="dayOfBirth" placeholder="Day">
-    </div>
-    <div class="col form-group">
-        <input type="text" id="monthOfBirth" placeholder="Month">
-    </div>
-    <div class="col form-group">
-        <input type="text" id="yearOfBirth" placeholder="Year">
-    </div>
-</div>
-<div class="form-group">
-    <label>Difficulty</label>
-    <select id="gender">
-        <option value="">Choose dificulty...</option>
-        <option value="Male">Male (easy)</option>
-        <option value="Female">Female (medium)</option>
-        <option value="Non-binary">Non-binary  (hard)</option>
-        <option value="Prefer not to say">Prefer not to say (extreme)</option>
-    </select>
-</div>
 
 <div class="form-group">
     <label>Resume in PDF format</label>
