@@ -1,8 +1,8 @@
 const KEYWORDS = {
-    firstName: ['first name', 'firstname', 'given name', 'fname', 'primer nombre'],
-    lastName: ['last name', 'lastname', 'surname', 'lname', 'family name'],
+    firstName: ['first name', 'firstname', 'given name', 'fname', 'primer nombre', 'nombre'],
+    lastName: ['last name', 'lastname', 'surname', 'lname', 'family name', 'apellido'],
     fullName: ['full name', 'fullname', 'your name', 'name'],
-    email: ['email', 'e-mail', 'mail'],
+    email: ['email', 'e-mail', 'mail', 'Email'],
     phone: ['phone', 'mobile', 'cell', 'telephone', 'contact number', 'teléfono', 'telefono'],
     linkedin: ['linkedin', 'linked in'],
     portfolio: ['portfolio', 'website', 'personal site', 'github', 'git'],

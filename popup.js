@@ -83,6 +83,25 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => status.innerText = "", 2000);
         });
     });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+        if (confirm("Do you really hate your data that much?")) {
+            chrome.storage.local.clear(() => {
+                document.querySelectorAll('input').forEach(input => input.value = '');
+                document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+                document.getElementById('fileStatus').innerText = "No file saved currently.";
+
+                const status = document.getElementById('status');
+                status.innerText = "Data deleted.";
+                status.style.color = "red";
+
+                setTimeout(() => {
+                    status.innerText = "";
+                    status.style.color = "#666";
+                }, 2000);
+            });
+        }
+    });
 });
 
 function readFileAsBase64(file) {
