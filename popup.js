@@ -69,6 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
             email: document.getElementById('email').value,
             identification: document.getElementById('identification').value,
             phone: document.getElementById('phone').value,
+            country: document.getElementById('country').value,
+            nationality: document.getElementById('nationality').value,
             address: document.getElementById('address').value,
             city: document.getElementById('city').value,
             state: document.getElementById('state').value,
@@ -117,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('clearBtn').addEventListener('click', () => {
-        if (confirm("Do you really hate your data that much?")) {
+        if (confirm("Do you really hate your own data that much?")) {
             chrome.storage.local.clear(() => {
                 document.querySelectorAll('input').forEach(input => input.value = '');
                 document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);

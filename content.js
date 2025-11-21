@@ -17,7 +17,7 @@ const KEYWORDS = {
     gender: ['gender', 'sex', 'género', 'genero', 'sexo'],
     dayOfBirth: ['day', 'dia', 'dd'],
     monthOfBirth: ['month', 'mes', 'mm'],
-    yearOfBirth: ['year', 'año', 'yyyy']
+    yearOfBirth: ['year', 'año', 'yyyy', 'anio', 'ano', 'yy']
 };
 
 // Listen for the hotkey (Alt + A)
