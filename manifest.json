@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Buscador-Laburo",
-  "version": "1.0",
+  "name": "Auto-Filler",
+  "version": "0.1",
   "description": "Auto completa toda tu info con las teclas (Alt+A).",
   "permissions": [
     "storage",

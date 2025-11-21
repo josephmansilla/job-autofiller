@@ -1,37 +1,32 @@
+const FORM_FIELDS = [
+    'firstName', 'lastName', 'email', 'identification', 'phone',
+    'address', 'city', 'state', 'postalCode', 'country', 'nationality',
+    'linkedin', 'github', 'portfolio', 'gender',
+    'dayOfBirth', 'monthOfBirth', 'yearOfBirth'
+];
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Load saved data
+
     chrome.storage.local.get(['profile', 'resumeMeta'], (result) => {
-        if (result.profile) {
-            document.getElementById('firstName').value = result.profile.firstName || '';
-            document.getElementById('lastName').value = result.profile.lastName || '';
-            document.getElementById('email').value = result.profile.email || '';
-            document.getElementById('phone').value = result.profile.phone || '';
-            document.getElementById('identification').value = result.profile.identification || '';
-            document.getElementById('nationality').value = result.profile.nationality || '';
-            document.getElementById('gender').value = result.profile.gender || '';
-            document.getElementById('address').value = result.profile.address || '';
-            document.getElementById('city').value = result.profile.city || '';
-            document.getElementById('postalCode').value = result.profile.postalCode || '';
-            document.getElementById('state').value = result.profile.state || '';
-            document.getElementById('country').value = result.profile.country || '';
-            document.getElementById('linkedin').value = result.profile.linkedin || '';
-            document.getElementById('github').value = result.profile.github || '';
-            document.getElementById('portfolio').value = result.profile.portfolio || '';
-            document.getElementById('gender').value = result.profile.gender || '';
-            document.getElementById('dayOfBirth').value = result.profile.dayOfBirth || '';
-            document.getElementById('monthOfBirth').value = result.profile.monthOfBirth || '';
-            document.getElementById('yearOfBirth').value = result.profile.yearOfBirth || '';
-        }
+        FORM_FIELDS.forEach(id => {
+            const inputElement = document.getElementById(id);
+            if (inputElement) {
+                inputElement.value = result.profile[id] || '';
+            }
+        });
         if (result.resumeMeta) {
-            document.getElementById('fileStatus').innerText = `Saved: ${result.resumeMeta.name}`;
+            const statusEl = document.getElementById('fileStatus');
+            if (statusEl) statusEl.innerText = `Saved: ${result.resumeMeta.name}`;
         }
     });
+
 
     const importBtn = document.getElementById('importJsonBtn');
     const jsonInput = document.getElementById('jsonInput');
 
     importBtn.addEventListener('click', () => {
-        jsonInput.click(); // Trigger invisible file input
+        jsonInput.value = '';
+        jsonInput.click();
     });
     jsonInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
@@ -40,18 +35,41 @@ document.addEventListener('DOMContentLoaded', () => {
         const reader = new FileReader();
         reader.onload = (e) => {
             try {
-                const importedData = JSON.parse(e.target.result);
-                fields.forEach(key => {
+                let importedData = JSON.parse(e.target.result);
+                if (importedData.profile) importedData = importedData.profile;
+
+                let count = 0
+                FORM_FIELDS.forEach(key => {
                     if (importedData[key] !== undefined) {
-                        const element = document.getElementById(key);
-                        if (element) element.value = importedData[key];
+                        const elem = document.getElementById(key);
+                        if (elem) {
+                            if (elem.tagName === 'SELECT') {
+                                const val = String(importedData[key]);
+                                for (let i = 0; i < el.options.length; i++) {
+                                    if (elem.options[i].value.toLowerCase() === val) {
+                                        elem.selectedIndex = i;
+                                        break;
+                                    }
+                                }
+                            } else {
+                                el.value = importedData[key];
+                            }
+                            count++;
+                        }
                     }
                 });
                 const status = document.getElementById('status');
-                status.innerText = "Data imported from JSON. Click Save to keep it.";
-                status.style.color = "blue";
+                if (count > 0) {
+                    status.innerText = "Data imported from JSON. Click Save to keep it.";
+                    status.style.color = "blue";
+                } else {
+                    status.innerText = "JSON file is valid, yet empty.";
+                    status.style.color = "orange";
+                }
+
             } catch (error) {
-                alert("Invalid JSON file.");
+                alert("Error de formato en el JSON:\n" + error.message);
+                console.error("JSON Error:", error);
             }
         };
         reader.readAsText(file);
@@ -62,27 +80,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const status = document.getElementById('status');
         status.innerText = "Saving...";
 
-        const profile = {
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            fullName: `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`,
-            email: document.getElementById('email').value,
-            identification: document.getElementById('identification').value,
-            phone: document.getElementById('phone').value,
-            country: document.getElementById('country').value,
-            nationality: document.getElementById('nationality').value,
-            address: document.getElementById('address').value,
-            city: document.getElementById('city').value,
-            state: document.getElementById('state').value,
-            postalCode: document.getElementById('postalCode').value,
-            linkedin: document.getElementById('linkedin').value,
-            github: document.getElementById('github').value,
-            portfolio: document.getElementById('portfolio').value,
-            dayOfBirth: document.getElementById('dayOfBirth').value,
-            monthOfBirth: document.getElementById('monthOfBirth').value,
-            yearOfBirth: document.getElementById('yearOfBirth').value,
-            gender: document.getElementById('gender').value,
-        };
+        const profile = {};
+        FORM_FIELDS.forEach(id => {
+            const elem = document.getElementById(id);
+            if (elem) {
+                profile[id] = elem.value.trim();
+            }
+        });
+
+        profile.fullName = `${profile.firstName || ''} ${profile.lastName || ''}`.trim();
 
         const fileInput = document.getElementById('resumeFile');
         const dataToSave = { profile };
