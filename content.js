@@ -20,7 +20,6 @@ const KEYWORDS = {
     yearOfBirth: ['year', 'año', 'yyyy', 'anio', 'ano', 'yy']
 };
 
-// Listen for the hotkey (Alt + A)
 document.addEventListener('keydown', (e) => {
     if (e.altKey && (e.key === 'a' || e.key === 'A')) {
         e.preventDefault();
@@ -184,7 +183,7 @@ function showToast(message) {
     const toast = document.createElement('div');
     toast.innerText = message;
     toast.style.position = 'fixed';
-    toast.style.bottom = '20px';
+    toast.style.top = '20px';
     toast.style.right = '20px';
     toast.style.backgroundColor = '#333';
     toast.style.color = '#fff';
@@ -199,5 +198,5 @@ function showToast(message) {
 
     setTimeout(() => {
         toast.remove();
-    }, 3000);
+    }, 6000);
 }
